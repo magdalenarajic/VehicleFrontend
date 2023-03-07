@@ -11,7 +11,7 @@ const MakeList = () => {
       }, []);
 
       const deleteData = (id) => {
-          makeStore.deleteData(id);
+          makeStore.deleteData(`${id}`);
       };
 
     return (

@@ -29,6 +29,7 @@ class MakeStore {
   };
 
   createData = ( abrv, name) => {
+
            const vehicleData =
            { Abrv: abrv,
           Name: name};
@@ -43,7 +44,13 @@ class MakeStore {
   };
 
   deleteData = (id) => {
-    makeService.deleteVehicleMake(id);
+        makeService.deleteVehicleMake(id)
+        .then((response) => {
+          if (response.status === 200) {
+            this.status = "success";
+            this.getData();
+       }
+        });
   };
 
   updateData = (abrv,name,id) => {

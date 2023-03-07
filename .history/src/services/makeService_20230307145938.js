@@ -4,7 +4,7 @@ const errorHandler = (error) => {
   console.log(error);
 };
 
-const baseUrl = "https://localhost:44304/api/VehicleMakes"
+const baseUrl = "https://localhost:44352/api/VehicleMakes"
 
 class MakeService {
   getVehicleMakes = () => {
@@ -22,7 +22,7 @@ class MakeService {
 
 
   deleteVehicleMake = (id) => {
-    return axios.delete(`${baseUrl}/${id}/`)
+    return axios.delete(`${baseUrl}/${id}`)
     .catch(errorHandler);
   };
 

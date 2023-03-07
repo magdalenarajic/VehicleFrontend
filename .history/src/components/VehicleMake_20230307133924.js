@@ -11,7 +11,7 @@ const MakeList = () => {
       }, []);
 
       const deleteData = (id) => {
-          makeStore.deleteData(id);
+          makeStore.deleteData(`${id}`);
       };
 
     return (
@@ -34,7 +34,7 @@ const MakeList = () => {
                       <td>{make.Name}</td>
                       <td>{make.Abrv}</td>
                       <td> 
-                        <button className="delete-btn" onClick={() => deleteData(make.Id)}>
+                        <button className="delete-btn" onClick={() => deleteData(make.id)}>
                           Delete
                         </button>
                         </td>

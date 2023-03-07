@@ -29,6 +29,7 @@ class MakeStore {
   };
 
   createData = ( abrv, name) => {
+
            const vehicleData =
            { Abrv: abrv,
           Name: name};

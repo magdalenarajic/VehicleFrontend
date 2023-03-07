@@ -22,7 +22,7 @@ class MakeService {
 
 
   deleteVehicleMake = (id) => {
-    return axios.delete(`${baseUrl}/${id}/`)
+    return axios.delete(`${baseUrl}/${id}`)
     .catch(errorHandler);
   };
 

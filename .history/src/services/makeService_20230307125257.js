@@ -4,30 +4,29 @@ const errorHandler = (error) => {
   console.log(error);
 };
 
-const baseUrl = "https://localhost:44304/api/VehicleMakes"
+const baseUrl = "https://localhost:44304/api";
 
 class MakeService {
   getVehicleMakes = () => {
-    return axios.get(`${baseUrl}`).catch(errorHandler);
+    return axios.get(`${baseUrl}/VehicleMakes`).catch(errorHandler);
   };
-
+  
 
   item = {
     Name: " ",
     Abrv: " "
   };
   postVehicleMake = (item) => {
-    axios.post(`${baseUrl}`, item).catch(errorHandler);
+    axios.post(`${baseUrl}/VehicleMakes`, item).catch(errorHandler);
   };
 
 
   deleteVehicleMake = (id) => {
-    return axios.delete(`${baseUrl}/${id}/`)
-    .catch(errorHandler);
+    axios.delete(`${baseUrl}/VehicleMakes/${id}`).catch(errorHandler);
   };
 
   putVehicleMake = (id,item) => {
-    axios.put(`${baseUrl}/${id}`, item).catch(errorHandler);
+    axios.put(`${baseUrl}/VehicleMakes/${id}`, item).catch(errorHandler);
   };
 
 }
