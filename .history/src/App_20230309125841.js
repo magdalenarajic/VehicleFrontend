@@ -2,7 +2,7 @@ import './App.css';
 import { Home } from './components/Home';
 import VehicleMake  from './components/VehicleMake';
 import {Navigation} from './components/Navigation';
-import VehicleModel from './components/VehicleModel';
+import VehiceModel from './components/VehiceModel';
 
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 
@@ -20,7 +20,7 @@ function App() {
        <Routes>
         <Route path='/' element={<Home/>} />
         <Route path='/Makes' element={<VehicleMake/>} />
-        <Route path='/Models' element={<VehicleModel/>} />
+        <Route path='/Models' element={<VehiceModel/>} />
        </Routes>
     </div>
     </div>

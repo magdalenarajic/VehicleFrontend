@@ -12,9 +12,6 @@ export class Navigation extends Component {
           <Nav.Link className="d-inline p-2 text-white" href="/makes">
             Vehicle Makes
           </Nav.Link>
-          <Nav.Link className="d-inline p-2 text-white" href="/models">
-            Vehicle Models
-          </Nav.Link>
         </Nav>
       </Navbar>
     );
