@@ -19,9 +19,10 @@ const MakeList = () => {
 
   const [searchInput, setSearchInput] = useState("");
 
-  useEffect(() => {
-    makeStore.pageData(1,3);
+  
 
+  useEffect(() => {
+    makeStore.getData();
   }, []);
 
   const getSingleData = (id) => {
@@ -75,16 +76,6 @@ const MakeList = () => {
     console.log(searchInput);
     makeStore.filterDataByName(searchInput);
     setSearchInput("");
-  };
-
-    
-  const [pageNumber, setPageNumber] = useState(1);
-
-  const handlePagedData = (pageNumber, pageSize) => {
-    if(pageNumber > 0){
-           setPageNumber(pageNumber);
-           makeStore.pageData(pageNumber, pageSize);
-    }
   };
 
   return (
@@ -170,23 +161,14 @@ const MakeList = () => {
                 </Table>
                 <Col> 
                 <Pagination>
-                <Pagination.Item onClick={() => handleGetData()} >
-   All Makes 
- </Pagination.Item>
- <Pagination.Item value={pageNumber} onClick={() => handlePagedData(1, 3)} >
+ <Pagination.Item value={1} >
    {1}
  </Pagination.Item>
- <Pagination.Item value={pageNumber} onClick={() => handlePagedData(2, 3)}>
+ <Pagination.Item value={2}>
    {2}
  </Pagination.Item>
- <Pagination.Item value={pageNumber} onClick={() => handlePagedData(3, 3)}>
+ <Pagination.Item value={3} >
    {3}
- </Pagination.Item>
- <Pagination.Item value={pageNumber} onClick={() => handlePagedData(4, 3)}>
-   {4}
- </Pagination.Item>
- <Pagination.Item value={5} onClick={() => handlePagedData(5, 3)} >
-   {5}
  </Pagination.Item>
 </Pagination>
 

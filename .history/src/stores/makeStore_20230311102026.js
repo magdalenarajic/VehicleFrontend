@@ -7,7 +7,6 @@ class MakeStore {
       status: observable,
       vehicleData: observable,
       singleData: observable,
-      xPagination: observable,
       getData: action,
       createData: action,
       deleteData: action,
@@ -19,7 +18,6 @@ class MakeStore {
   status = "initial";
   vehicleData = [];
   singleData = [];
-  xPagination = "";
 
   getData = () => {
     makeService

@@ -20,7 +20,7 @@ const MakeList = () => {
   const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
-    makeStore.pageData(1,3);
+    makeStore.getData();
 
   }, []);
 
@@ -68,6 +68,7 @@ const MakeList = () => {
   };
 
   const handleGetData = () => {
+    setPageNumber(1);
     makeStore.getData();
   };
 

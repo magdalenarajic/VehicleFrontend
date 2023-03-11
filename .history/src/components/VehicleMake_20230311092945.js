@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Observer } from "mobx-react";
 import makeStore from "../stores/makeStore";
-import { Container, Table, Col, Row, CloseButton, Pagination  } from "react-bootstrap";
+import { Container, Table, Col, Row, CloseButton } from "react-bootstrap";
 
 const MakeList = () => {
   const [showForm, setShowForm] = useState(false);
@@ -20,8 +20,7 @@ const MakeList = () => {
   const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
-    makeStore.pageData(1,3);
-
+    makeStore.getData();
   }, []);
 
   const getSingleData = (id) => {
@@ -75,16 +74,6 @@ const MakeList = () => {
     console.log(searchInput);
     makeStore.filterDataByName(searchInput);
     setSearchInput("");
-  };
-
-    
-  const [pageNumber, setPageNumber] = useState(1);
-
-  const handlePagedData = (pageNumber, pageSize) => {
-    if(pageNumber > 0){
-           setPageNumber(pageNumber);
-           makeStore.pageData(pageNumber, pageSize);
-    }
   };
 
   return (
@@ -169,27 +158,15 @@ const MakeList = () => {
                   </tbody>
                 </Table>
                 <Col> 
-                <Pagination>
-                <Pagination.Item onClick={() => handleGetData()} >
-   All Makes 
- </Pagination.Item>
- <Pagination.Item value={pageNumber} onClick={() => handlePagedData(1, 3)} >
-   {1}
- </Pagination.Item>
- <Pagination.Item value={pageNumber} onClick={() => handlePagedData(2, 3)}>
-   {2}
- </Pagination.Item>
- <Pagination.Item value={pageNumber} onClick={() => handlePagedData(3, 3)}>
-   {3}
- </Pagination.Item>
- <Pagination.Item value={pageNumber} onClick={() => handlePagedData(4, 3)}>
-   {4}
- </Pagination.Item>
- <Pagination.Item value={5} onClick={() => handlePagedData(5, 3)} >
-   {5}
- </Pagination.Item>
-</Pagination>
-
+                <ul className="pageNumbers"> 
+               <li>
+                   <button>Prev</button>
+               </li>
+             
+                <li>
+                   <button > Next</button>
+               </li>
+            </ul>
             </Col>
               </Col>
               <Col
