@@ -169,7 +169,7 @@ const ModelList = () => {
                   border: "1px solid black",
                   alignSelf: "center",
                   padding: "20px",
-                  marginTop: "90px",
+                  marginTop: "90px"
                 }}
               >
                 <br />
@@ -219,12 +219,12 @@ const ModelList = () => {
             </Row>
             {showForm && (
               <Col
-                style={{
-                  height: "95%",
-                  border: "1px solid black",
-                  alignSelf: "center",
-                  padding: "20px",
-                }}
+              style={{
+                height: "95%",
+                border: "1px solid black",
+                alignSelf: "center",
+                padding: "20px",
+              }}
               >
                 <Col>
                   <CloseButton

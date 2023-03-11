@@ -34,15 +34,18 @@ class ModelService {
 
   getOrderedModels = () => {
     return axios
-      .get("https://localhost:44304/api/OrderedVehicleModels")
-      .catch(errorHandler);
+    .get("https://localhost:44304/api/OrderedVehicleModels")
+    .catch(errorHandler);
   };
 
-  getFilteredModels = (name) => {
+ getFilteredModels = (name) => {
     return axios
       .get(`https://localhost:44304/api/FilteredVehicleModels?name=${name}`)
       .catch(errorHandler);
   };
+
+
+
 }
 
 const modelService = new ModelService();

@@ -74,17 +74,17 @@ class ModelStore {
 
   filterDataByName = (searchInput) => {
     const name = searchInput;
-    modelService
-      .getFilteredModels(name)
-      .then((result) => {
-        this.vehicleData = result.data;
-        console.log(result);
-      })
-      .catch((error) => {
-        console.log(error);
-        this.status = "error";
-      });
-  };
+    modelService.getFilteredModels(name)
+    .then((result) => {
+      this.vehicleData = result.data;
+      console.log(result);
+    })
+    .catch((error) => {
+      console.log(error);
+      this.status = "error";
+    });
+  }
+
 }
 
 const modelStore = new ModelStore();
