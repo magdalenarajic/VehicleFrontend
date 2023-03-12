@@ -31,8 +31,8 @@ const MakeList = () => {
   const pageSize = 4;
 
   useEffect(() => {
-    makeStore.pageSortAndFilterData(1,pageSize,searchInput,order)
-  }, [searchInput,order]);
+    makeStore.getData();
+  }, []);
 
   const getSingleData = (id) => {
     handleShow();
@@ -76,13 +76,14 @@ const MakeList = () => {
   const handleSortByName = () => {
     setOrder("name");
     makeStore.pageSortAndFilterData(pageNumber,pageSize,searchInput,order);
+    setOrder("");
   };
 
-    
   const handleSortById = () => {
     setOrder("");
-    makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
+    makeStore.pageSortAndFilterData(pageNumber,pageSize,searchInput,order);
   };
+
 
   const handleGetData = () => {
     makeStore.getData();
@@ -93,7 +94,6 @@ const MakeList = () => {
       makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
     }
   };
-
 
   const handleFilterData = () => {
     makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);

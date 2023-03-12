@@ -25,14 +25,10 @@ const MakeList = () => {
   const [editId, setEditId] = useState("");
 
   const [searchInput, setSearchInput] = useState("");
-  const [order, setOrder] = useState("");
-  const [pageNumber, setPageNumber] = useState(1);
-  
-  const pageSize = 4;
 
   useEffect(() => {
-    makeStore.pageSortAndFilterData(1,pageSize,searchInput,order)
-  }, [searchInput,order]);
+    makeStore.pageData(1, 4);
+  }, []);
 
   const getSingleData = (id) => {
     handleShow();
@@ -73,30 +69,26 @@ const MakeList = () => {
     }
   };
 
-  const handleSortByName = () => {
-    setOrder("name");
-    makeStore.pageSortAndFilterData(pageNumber,pageSize,searchInput,order);
-  };
-
-    
-  const handleSortById = () => {
-    setOrder("");
-    makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
+  const handleSort = () => {
+    makeStore.sortData();
   };
 
   const handleGetData = () => {
     makeStore.getData();
   };
+
+  const [pageNumber, setPageNumber] = useState(1);
+
   const handlePagedData = (pageNumber, pageSize) => {
     if (pageNumber > 0) {
       setPageNumber(pageNumber);
-      makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
+      makeStore.pageData(pageNumber, pageSize, searchInput);
     }
   };
 
-
   const handleFilterData = () => {
-    makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
+    console.log(searchInput);
+    makeStore.pageData(pageNumber, 3, searchInput);
     setSearchInput("");
   };
 
@@ -112,15 +104,15 @@ const MakeList = () => {
                   <br />
                   <button
                     variant="outline-dark"
-                    className="btn"
-                    onClick={() => handleSortByName()}
+                    className="btn "
+                    onClick={() => handleSort()}
                   >
                     Sort by Name Ascending
                   </button>
                   <button
                     variant="outline-dark"
                     className="btn"
-                    onClick={() => handleSortById()}
+                    onClick={() => handleGetData()}
                   >
                     Sort by Id Ascending
                   </button>
@@ -188,32 +180,27 @@ const MakeList = () => {
                     </Pagination.Item>
                     <Pagination.Item
                       value={pageNumber}
-                      onClick={() => handlePagedData(pageNumber-1, pageSize)}
+                      onClick={() => handlePagedData(pageNumber-1, 4)}
                     >
                       Previous
                     </Pagination.Item>
                     <Pagination.Item 
                       value={pageNumber}
-                      onClick={() => handlePagedData(1, pageSize)}
+                      onClick={() => handlePagedData(1, 4)}
                     >
                       {1}
                     </Pagination.Item>
                     <Pagination.Item
                       value={pageNumber}
-                      onClick={() => handlePagedData(2, pageSize)}
+                      onClick={() => handlePagedData(2, 4)}
                     >
                       {2}
                     </Pagination.Item>
                     <Pagination.Item
                       value={pageNumber}
-                      onClick={() => handlePagedData(3, pageSize)}
+                      onClick={() => handlePagedData(3, 4)}
                     >
                       {3}
-                    </Pagination.Item>
-                    <Pagination.Item
-                      value={pageNumber}
-                     >
-                      ...
                     </Pagination.Item>
                     <Pagination.Item
                       value={pageNumber}

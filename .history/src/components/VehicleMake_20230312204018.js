@@ -31,8 +31,8 @@ const MakeList = () => {
   const pageSize = 4;
 
   useEffect(() => {
-    makeStore.pageSortAndFilterData(1,pageSize,searchInput,order)
-  }, [searchInput,order]);
+    makeStore.pageSortAndFilterData(1,pageSize)
+  }, []);
 
   const getSingleData = (id) => {
     handleShow();

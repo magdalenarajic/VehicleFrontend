@@ -1,7 +1,7 @@
 import { observable, action, makeObservable } from "mobx";
-import modelService from "../services/modelService";
+import makeService from "../services/makeService";
 
-class ModelStore {
+class MakeStore {
   constructor() {
     makeObservable(this, {
       status: observable,
@@ -20,8 +20,8 @@ class ModelStore {
   singleData = [];
 
   getData = () => {
-    modelService
-      .getVehicleModels()
+    makeService
+      .getVehicleMakes()
       .then((result) => {
         this.vehicleData = result.data;
       })
@@ -32,13 +32,13 @@ class ModelStore {
   };
 
   getSingleData = (id) => {
-    return modelService.getVehicleModel(id);
+    return makeService.getVehicleMake(id);
   };
 
-  createData = (abrv, name, makeId) => {
-    const vehicleData = { Abrv: abrv, Name: name, MakeId: makeId };
+  createData = (abrv, name) => {
+    const vehicleData = { Abrv: abrv, Name: name };
 
-    modelService.postVehicleModel(vehicleData).then((response) => {
+    makeService.postVehicleMake(vehicleData).then((response) => {
       if (response.body === true) {
         this.status = "success";
         this.getData();
@@ -47,22 +47,21 @@ class ModelStore {
   };
 
   deleteData = (id) => {
-    modelService.deleteVehicleModel(id).then((response) => {
-      this.getData();
+    makeService.deleteVehicleMake(id).then((response) => {
+        this.getData();
     });
   };
 
-  updateData = (name, abrv, makeId, id) => {
-    const singleData = { Name: name, Abrv: abrv, MakeId: makeId };
-    modelService.putVehicleModel(id, singleData).then((response) => {
-      console.log(response);
+  updateData = (name, abrv, id) => {
+    const singleData = { Name: name, Abrv: abrv };
+    makeService.putVehicleMake(id, singleData).then((response) => {
       this.getData();
     });
   };
 
   sortData = () => {
-    modelService
-      .getOrderedModels()
+    makeService
+      .getOrderedMakes()
       .then((result) => {
         this.vehicleData = result.data;
       })
@@ -72,13 +71,11 @@ class ModelStore {
       });
   };
 
-  filterDataByName = (searchInput) => {
-    const name = searchInput;
-    modelService
-      .getFilteredModels(name)
+  pageSortAndFilterData = (pageNumber, pageSize, name, order) => {
+    makeService
+      .getPagedMakes(pageNumber, pageSize, name, order)
       .then((result) => {
         this.vehicleData = result.data;
-        console.log(result);
       })
       .catch((error) => {
         console.log(error);
@@ -87,6 +84,7 @@ class ModelStore {
   };
 }
 
-const modelStore = new ModelStore();
+const makeStore = new MakeStore();
 
-export default modelStore;
+// makeStore.getSingleData(60).then((result) => console.log(result.data));
+export default makeStore;

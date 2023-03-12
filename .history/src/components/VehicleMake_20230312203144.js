@@ -31,8 +31,8 @@ const MakeList = () => {
   const pageSize = 4;
 
   useEffect(() => {
-    makeStore.pageSortAndFilterData(1,pageSize,searchInput,order)
-  }, [searchInput,order]);
+    makeStore.getData();
+  }, []);
 
   const getSingleData = (id) => {
     handleShow();
@@ -73,15 +73,14 @@ const MakeList = () => {
     }
   };
 
-  const handleSortByName = () => {
-    setOrder("name");
+  const handleSortByName = (name) => {
+    setOrder(name);
     makeStore.pageSortAndFilterData(pageNumber,pageSize,searchInput,order);
   };
 
-    
   const handleSortById = () => {
     setOrder("");
-    makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
+    makeStore.pageSortAndFilterData(pageNumber,pageSize,searchInput,order);
   };
 
   const handleGetData = () => {
@@ -93,7 +92,6 @@ const MakeList = () => {
       makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
     }
   };
-
 
   const handleFilterData = () => {
     makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
@@ -113,7 +111,7 @@ const MakeList = () => {
                   <button
                     variant="outline-dark"
                     className="btn"
-                    onClick={() => handleSortByName()}
+                    onClick={(e) => handleSortByName("name")}
                   >
                     Sort by Name Ascending
                   </button>

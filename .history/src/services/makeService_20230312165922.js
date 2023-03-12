@@ -37,10 +37,16 @@ class MakeService {
       .catch(errorHandler);
   };
 
-  getPagedMakes = (pageNumber, pageSize, name, order) => {
+  getFilteredMakes = (name) => {
+    return axios
+      .get(`https://localhost:44304/api/PagedVehicleMakes?name=${name}`)
+      .catch(errorHandler);
+  };
+
+  getPagedMakes = (pageNumber, pageSize, name) => {
     return axios
       .get(
-        `https://localhost:44304/api/PagedVehicleMakes?queryParameters.pageNumber=${pageNumber}&queryParameters.pageSize=${pageSize}&queryParameters.name=${name}&queryParameters.order=${order}`
+        `https://localhost:44304/api/PagedVehicleMakes?queryParameters.pageNumber=${pageNumber}&queryParameters.pageSize=${pageSize}&queryParameters.name=${name}`
       )
       .catch(errorHandler);
   };
