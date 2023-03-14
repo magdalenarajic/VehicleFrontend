@@ -37,6 +37,7 @@ class MakeStore {
 
   createData = (abrv, name) => {
     const vehicleData = { Abrv: abrv, Name: name };
+
     makeService.postVehicleMake(vehicleData).then((response) => {
       if (response.body === true) {
         this.status = "success";

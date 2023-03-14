@@ -37,6 +37,7 @@ class MakeStore {
 
   createData = (abrv, name) => {
     const vehicleData = { Abrv: abrv, Name: name };
+
     makeService.postVehicleMake(vehicleData).then((response) => {
       if (response.body === true) {
         this.status = "success";
@@ -47,18 +48,14 @@ class MakeStore {
 
   deleteData = (id) => {
     makeService.deleteVehicleMake(id).then((response) => {
-      if (response.body === true) {
-        this.status = "success";
-      }
+        this.getData();
     });
   };
 
   updateData = (name, abrv, id) => {
     const singleData = { Name: name, Abrv: abrv };
     makeService.putVehicleMake(id, singleData).then((response) => {
-      if (response.body === true) {
-        this.status = "success";
-      }
+      this.getData();
     });
   };
 

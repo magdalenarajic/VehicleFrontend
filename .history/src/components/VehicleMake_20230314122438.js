@@ -24,13 +24,12 @@ const MakeList = () => {
   const [editAbrv, setEditAbrv] = useState("");
   const [editId, setEditId] = useState("");
 
-  const [searchInput, setSearchInput] = useState("");
-  const [nameInput, setNameInput] = useState("");
+
   const [order, setOrder] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
 
   const pageSize = 4;
-
+  const searchInput = "";
 
   useEffect(() => {
     makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
@@ -94,11 +93,8 @@ const MakeList = () => {
     }
   };
 
-  const handleFilterData = (nameInput) => {
-    console.log(nameInput);
-    makeStore.pageSortAndFilterData(1, pageSize, nameInput, order);
-    setNameInput("");
-    setSearchInput("");
+  const handleFilterData = (searchInput) => {
+    makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
   };
 
   return (
@@ -131,10 +127,9 @@ const MakeList = () => {
                   <input
                     type={"text"}
                     placeholder="Search here"
-                    value={nameInput}
-                    onChange={(e) => setNameInput(e.target.value)}
+                    value={searchInput}
                   />
-                  <button className="btn" onClick={() => handleFilterData(nameInput)}>
+                  <button className="btn" onClick={handleFilterData(searchInput)}>
                     Search
                   </button>
                 </Col>

@@ -25,16 +25,14 @@ const MakeList = () => {
   const [editId, setEditId] = useState("");
 
   const [searchInput, setSearchInput] = useState("");
-  const [nameInput, setNameInput] = useState("");
   const [order, setOrder] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
 
   const pageSize = 4;
 
-
   useEffect(() => {
-    makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
-  }, [pageNumber,searchInput, order]);
+    makeStore.pageSortAndFilterData(1, pageSize, searchInput, order);
+  }, [searchInput, order]);
 
   const getSingleData = (id) => {
     handleShow();
@@ -58,12 +56,10 @@ const MakeList = () => {
     setEditName("");
     setEditAbrv("");
     setEditId("");
-    makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
   };
 
   const deleteData = (id) => {
     makeStore.deleteData(id);
-    makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
   };
 
   const saveData = () => {
@@ -87,6 +83,9 @@ const MakeList = () => {
     makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
   };
 
+  const handleGetData = () => {
+    makeStore.getData();
+  };
   const handlePagedData = (pageNumber, pageSize) => {
     if (pageNumber > 0) {
       setPageNumber(pageNumber);
@@ -94,10 +93,8 @@ const MakeList = () => {
     }
   };
 
-  const handleFilterData = (nameInput) => {
-    console.log(nameInput);
-    makeStore.pageSortAndFilterData(1, pageSize, nameInput, order);
-    setNameInput("");
+  const handleFilterData = () => {
+    makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
     setSearchInput("");
   };
 
@@ -131,10 +128,10 @@ const MakeList = () => {
                   <input
                     type={"text"}
                     placeholder="Search here"
-                    value={nameInput}
-                    onChange={(e) => setNameInput(e.target.value)}
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
                   />
-                  <button className="btn" onClick={() => handleFilterData(nameInput)}>
+                  <button className="btn" onClick={handleFilterData}>
                     Search
                   </button>
                 </Col>
@@ -184,6 +181,9 @@ const MakeList = () => {
                 </Table>
                 <Col>
                   <Pagination>
+                    <Pagination.Item onClick={() => handleGetData()}>
+                      All Makes
+                    </Pagination.Item>
                     <Pagination.Item
                       value={pageNumber}
                       onClick={() => handlePagedData(pageNumber - 1, pageSize)}

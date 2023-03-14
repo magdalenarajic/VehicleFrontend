@@ -96,9 +96,9 @@ const MakeList = () => {
 
   const handleFilterData = (nameInput) => {
     console.log(nameInput);
-    makeStore.pageSortAndFilterData(1, pageSize, nameInput, order);
-    setNameInput("");
-    setSearchInput("");
+    makeStore.pageSortAndFilterData(pageNumber, pageSize, nameInput, order);
+    setSearchInput(nameInput);
+    
   };
 
   return (

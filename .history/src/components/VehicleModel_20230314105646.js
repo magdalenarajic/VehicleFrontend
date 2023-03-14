@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Observer } from "mobx-react";
+import modelStore from "../stores/modelStore";
+import { Container, Table, Col, Row, CloseButton, Form } from "react-bootstrap";
 import makeStore from "../stores/MakeStore";
-import {
-  Container,
-  Table,
-  Col,
-  Row,
-  CloseButton,
-  Pagination,
-} from "react-bootstrap";
 
-const MakeList = () => {
+const ModelList = () => {
   const [showForm, setShowForm] = useState(false);
   const handleShow = () => setShowForm(true);
 
@@ -19,28 +13,26 @@ const MakeList = () => {
 
   const [name, setName] = useState("");
   const [abrv, setAbrv] = useState("");
+  const [makeId, setMakeId] = useState("");
 
   const [editName, setEditName] = useState("");
   const [editAbrv, setEditAbrv] = useState("");
+  const [editMakeId, setEditMakeId] = useState("");
   const [editId, setEditId] = useState("");
 
   const [searchInput, setSearchInput] = useState("");
-  const [nameInput, setNameInput] = useState("");
-  const [order, setOrder] = useState("");
-  const [pageNumber, setPageNumber] = useState(1);
-
-  const pageSize = 4;
-
 
   useEffect(() => {
-    makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
-  }, [pageNumber,searchInput, order]);
+    modelStore.getData();
+    makeStore.getData();
+  }, []);
 
   const getSingleData = (id) => {
     handleShow();
-    makeStore.getSingleData(id).then((result) => {
+    modelStore.getSingleData(id).then((result) => {
       setEditName(result.data.Name);
       setEditAbrv(result.data.Abrv);
+      setEditMakeId(result.data.MakeId);
       setEditId(result.data.Id);
     });
   };
@@ -49,55 +41,47 @@ const MakeList = () => {
     const data = {
       name: editName,
       abrv: editAbrv,
+      makeId: editMakeId,
     };
     const id = {
       Id: editId,
     };
     console.log(data, id);
-    makeStore.updateData(editName, editAbrv, editId);
+    modelStore.updateData(editName, editAbrv, editMakeId, editId);
     setEditName("");
     setEditAbrv("");
+    setEditMakeId("");
     setEditId("");
-    makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
   };
 
   const deleteData = (id) => {
-    makeStore.deleteData(id);
-    makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
+    modelStore.deleteData(id);
   };
 
   const saveData = () => {
-    if (abrv === "" && name === "") {
+    if (abrv === "" && name === "" && makeId === "") {
       handleError();
     } else {
-      makeStore.createData(abrv, name);
+      modelStore.createData(abrv, name, makeId);
+      console.log(abrv, name, makeId);
       setName("");
       setAbrv("");
+      setMakeId("");
       window.location.reload(true);
     }
   };
 
-  const handleSortByName = () => {
-    setOrder("name");
-    makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
+  const handleSort = () => {
+    modelStore.sortData();
   };
 
-  const handleSortById = () => {
-    setOrder("");
-    makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
+  const handleGetData = () => {
+    modelStore.getData();
   };
 
-  const handlePagedData = (pageNumber, pageSize) => {
-    if (pageNumber > 0) {
-      setPageNumber(pageNumber);
-      makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
-    }
-  };
-
-  const handleFilterData = (nameInput) => {
-    console.log(nameInput);
-    makeStore.pageSortAndFilterData(1, pageSize, nameInput, order);
-    setNameInput("");
+  const handleFilterData = () => {
+    console.log(searchInput);
+    modelStore.filterDataByName(searchInput);
     setSearchInput("");
   };
 
@@ -113,15 +97,15 @@ const MakeList = () => {
                   <br />
                   <button
                     variant="outline-dark"
-                    className="btn"
-                    onClick={() => handleSortByName()}
+                    className="btn "
+                    onClick={() => handleSort()}
                   >
                     Sort by Name Ascending
                   </button>
                   <button
                     variant="outline-dark"
                     className="btn"
-                    onClick={() => handleSortById()}
+                    onClick={() => handleGetData()}
                   >
                     Sort by Id Ascending
                   </button>
@@ -131,10 +115,10 @@ const MakeList = () => {
                   <input
                     type={"text"}
                     placeholder="Search here"
-                    value={nameInput}
-                    onChange={(e) => setNameInput(e.target.value)}
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
                   />
-                  <button className="btn" onClick={() => handleFilterData(nameInput)}>
+                  <button className="btn" onClick={handleFilterData}>
                     Search
                   </button>
                 </Col>
@@ -144,21 +128,23 @@ const MakeList = () => {
                       <th> Id </th>
                       <th> Name</th>
                       <th> Abrv</th>
+                      <th> Make Id</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {makeStore.vehicleData &&
-                    makeStore.vehicleData.length > 0 ? (
-                      makeStore.vehicleData.map((make, index) => {
+                    {modelStore.vehicleData &&
+                    modelStore.vehicleData.length > 0 ? (
+                      modelStore.vehicleData.map((model, index) => {
                         return (
                           <tr key={index}>
-                            <td>{make.Id}</td>
-                            <td>{make.Name}</td>
-                            <td>{make.Abrv}</td>
+                            <td>{model.Id}</td>
+                            <td>{model.Name}</td>
+                            <td>{model.Abrv}</td>
+                            <td> {model.MakeId} </td>
                             <td>
                               <button
                                 className="btn btn-dark"
-                                onClick={() => deleteData(make.Id)}
+                                onClick={() => deleteData(model.Id)}
                                 style={{
                                   marginRight: "10px",
                                 }}
@@ -167,7 +153,7 @@ const MakeList = () => {
                               </button>
                               <button
                                 className="btn btn-dark"
-                                onClick={() => getSingleData(make.Id)}
+                                onClick={() => getSingleData(model.Id)}
                               >
                                 Edit
                               </button>
@@ -182,41 +168,6 @@ const MakeList = () => {
                     )}
                   </tbody>
                 </Table>
-                <Col>
-                  <Pagination>
-                    <Pagination.Item
-                      value={pageNumber}
-                      onClick={() => handlePagedData(pageNumber - 1, pageSize)}
-                    >
-                      Previous
-                    </Pagination.Item>
-                    <Pagination.Item
-                      value={pageNumber}
-                      onClick={() => handlePagedData(1, pageSize)}
-                    >
-                      {1}
-                    </Pagination.Item>
-                    <Pagination.Item
-                      value={pageNumber}
-                      onClick={() => handlePagedData(2, pageSize)}
-                    >
-                      {2}
-                    </Pagination.Item>
-                    <Pagination.Item
-                      value={pageNumber}
-                      onClick={() => handlePagedData(3, pageSize)}
-                    >
-                      {3}
-                    </Pagination.Item>
-                    <Pagination.Item value={pageNumber}>...</Pagination.Item>
-                    <Pagination.Item
-                      value={pageNumber}
-                      onClick={() => handlePagedData(pageNumber + 1, 4)}
-                    >
-                      Next
-                    </Pagination.Item>
-                  </Pagination>
-                </Col>
               </Col>
               <Col
                 sm={4}
@@ -229,7 +180,7 @@ const MakeList = () => {
                 }}
               >
                 <br />
-                <label> Create new Vehicle Make</label>
+                <label> Create new Vehicle Model</label>
                 <br />
                 <input
                   type={"text"}
@@ -247,6 +198,26 @@ const MakeList = () => {
                   onChange={(e) => setAbrv(e.target.value)}
                   required
                 ></input>
+
+                <Form.Select
+                  type={"text"}
+                  className="form-control"
+                  value={makeId}
+                  onChange={(e) => setMakeId(e.target.value)}
+                >
+                  <option>Select Make</option>
+                  {makeStore.vehicleData && makeStore.vehicleData.length > 0 ? (
+                    makeStore.vehicleData.map((make) => {
+                      return (
+                        <option value={make.Id} key={make.Id}>
+                          {make.Name}
+                        </option>
+                      );
+                    })
+                  ) : (
+                    <option> No data found</option>
+                  )}
+                </Form.Select>
                 <Col>
                   <button
                     className="create-button"
@@ -283,7 +254,7 @@ const MakeList = () => {
                   />
                   <br />
                 </Col>
-                <label> Update Vehicle Make</label>
+                <label> Update Vehicle Model</label>
                 <br />
                 <input
                   type={"text"}
@@ -299,6 +270,24 @@ const MakeList = () => {
                   value={editAbrv}
                   onChange={(e) => setEditAbrv(e.target.value)}
                 ></input>
+                <Form.Select
+                  type={"text"}
+                  className="form-control"
+                  value={editMakeId}
+                  onChange={(e) => setEditMakeId(e.target.value)}
+                >
+                  {makeStore.vehicleData && makeStore.vehicleData.length > 0 ? (
+                    makeStore.vehicleData.map((make) => {
+                      return (
+                        <option value={make.Id} key={make.Id}>
+                          {make.Name}
+                        </option>
+                      );
+                    })
+                  ) : (
+                    <option> No data found</option>
+                  )}
+                </Form.Select>
                 <Col>
                   <button
                     className="create-button"
@@ -320,4 +309,4 @@ const MakeList = () => {
   );
 };
 
-export default MakeList;
+export default ModelList;
