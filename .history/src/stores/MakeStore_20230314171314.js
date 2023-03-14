@@ -62,6 +62,7 @@ class MakeStore {
     });
   };
 
+
   pageSortAndFilterData = (pageNumber, pageSize, name, order) => {
     makeService
       .getPagedMakes(pageNumber, pageSize, name, order)

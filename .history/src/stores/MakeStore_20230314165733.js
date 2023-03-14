@@ -62,6 +62,18 @@ class MakeStore {
     });
   };
 
+  sortData = () => {
+    makeService
+      .getOrderedMakes()
+      .then((result) => {
+        this.vehicleData = result.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.status = "error";
+      });
+  };
+
   pageSortAndFilterData = (pageNumber, pageSize, name, order) => {
     makeService
       .getPagedMakes(pageNumber, pageSize, name, order)

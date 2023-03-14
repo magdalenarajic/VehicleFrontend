@@ -73,6 +73,7 @@ const MakeList = () => {
       makeStore.createData(abrv, name);
       setName("");
       setAbrv("");
+      window.location.reload(true);
     }
   };
 

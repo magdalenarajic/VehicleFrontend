@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Observer } from "mobx-react";
+import { Observer, observer } from "mobx-react";
 import makeStore from "../stores/MakeStore";
 import {
   Container,
@@ -73,6 +73,7 @@ const MakeList = () => {
       makeStore.createData(abrv, name);
       setName("");
       setAbrv("");
+      makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
     }
   };
 
@@ -319,4 +320,4 @@ const MakeList = () => {
   );
 };
 
-export default MakeList;
+export default observer(MakeList);

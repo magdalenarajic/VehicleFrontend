@@ -73,6 +73,7 @@ const MakeList = () => {
       makeStore.createData(abrv, name);
       setName("");
       setAbrv("");
+      makeStore.pageSortAndFilterData(pageNumber, pageSize, searchInput, order);
     }
   };
 

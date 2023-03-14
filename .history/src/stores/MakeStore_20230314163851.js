@@ -41,6 +41,7 @@ class MakeStore {
     makeService.postVehicleMake(vehicleData).then((response) => {
       if (response.body === true) {
         this.status = "success";
+        this.getData();
       }
     });
   };
@@ -60,6 +61,18 @@ class MakeStore {
         this.status = "success";
       }
     });
+  };
+
+  sortData = () => {
+    makeService
+      .getOrderedMakes()
+      .then((result) => {
+        this.vehicleData = result.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.status = "error";
+      });
   };
 
   pageSortAndFilterData = (pageNumber, pageSize, name, order) => {
